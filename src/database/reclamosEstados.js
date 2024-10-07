@@ -18,7 +18,10 @@ export default class ReclamosEstados {
         
     }
 
-    actualizar = async () => {
-        
+    actualizar = async (id, datos) => {
+        const sql = 'UPDATE reclamos_estado SET ? WHERE idReclamoEstado = ?';
+        const [result] = await conexion.query(sql, [datos,id]);
+
+        return result
     }
 }

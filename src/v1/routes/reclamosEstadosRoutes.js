@@ -9,4 +9,6 @@ router.get("/", reclamosEstadosController.buscarTodos);
 
 router.get("/:id", reclamosEstadosController.buscarPorId); 
 
+router.patch("/:id", reclamosEstadosController.actualizar)
+
 export {router};
