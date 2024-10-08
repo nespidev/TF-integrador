@@ -1,6 +1,7 @@
 import express, { json } from "express"
 import dotenv from "dotenv"
 import { router as v1ReclamosEstadoRouter } from "./v1/routes/reclamosEstadosRoutes.js"
+import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.js"
 
 dotenv.config();
 const app = express();
@@ -22,3 +23,4 @@ app.get("/", (req, res) => {
 
 
 app.use('/api/v1/reclamos-estados', v1ReclamosEstadoRouter)
+app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
