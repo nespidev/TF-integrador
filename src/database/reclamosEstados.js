@@ -14,14 +14,15 @@ export default class ReclamosEstados {
         return (result.length > 0) ? result[0] : null;
     }
 
-    crear = async (descripcion, activo) => {
-        
+    crear = async ({descripcion, activo}) => {        
+        const sql = 'INSERT INTO reclamos_estado (descripcion, activo) VALUES (?,?)';
+        const [result] = await conexion.query(sql, [descripcion, activo]);
+        return  result   
     }
 
     actualizar = async (id, datos) => {
         const sql = 'UPDATE reclamos_estado SET ? WHERE idReclamoEstado = ?';
         const [result] = await conexion.query(sql, [datos,id]);
-
         return result
     }
 }
