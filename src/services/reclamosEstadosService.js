@@ -14,6 +14,10 @@ export default class ReclamosEstadosService {
         return this.reclamosEstados.buscarPorId(id);
     }
 
+    crear = (reclamoEstado) => {
+        return this.reclamosEstados.crear(reclamoEstado);
+    }
+
     actualizar = (id, datos) => {
         return this.reclamosEstados.actualizar(id, datos);
     }
