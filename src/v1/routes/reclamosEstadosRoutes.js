@@ -13,4 +13,5 @@ router.post('/', reclamosEstadosController.crear);
 
 router.patch("/:id", reclamosEstadosController.actualizar)
 
+
 export {router};
