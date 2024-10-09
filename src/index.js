@@ -2,8 +2,8 @@ import express, { json } from "express"
 import dotenv from "dotenv"
 import { router as v1ReclamosEstadoRouter } from "./v1/routes/reclamosEstadosRoutes.js"
 import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.js"
+import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRoutes.js"
 
-dotenv.config();
 const app = express();
 app.use(express.json());
 
@@ -21,6 +21,12 @@ app.get("/", (req, res) => {
 // ======================= fin test =======================
 
 
+// ======================= Envio de correo =======================
+app.use(express.json()); 
+// ======================= Fin envio de correo =======================
+
 
 app.use('/api/v1/reclamos-estados', v1ReclamosEstadoRouter)
 app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
+
+app.use('/api/v1/notificacion', v1NotificacionCorreo)
