@@ -10,7 +10,7 @@ export default class ReclamosTipo{
     } 
  
     buscarPorId = async (id) => {
-        const sql = 'SELECT * FROM reclamos_tipo WHERE activo = 1 AND idReclamoTipo = ?';
+        const sql = 'SELECT * FROM reclamos_tipo WHERE activo = 1 AND idReclamosTipo = ?';
         const [result] = await conexion.query(sql, [id]);
         return (result.length > 0) ? result[0] : null;
     }
@@ -22,7 +22,7 @@ export default class ReclamosTipo{
     }
 
     actualizar = async (id, datos) => {
-        const sql = 'UPDATE reclamos_tipo SET ? WHERE idReclamoTipo = ?';
+        const sql = 'UPDATE reclamos_tipo SET ? WHERE idReclamosTipo = ?';
         const [result] = await conexion.query(sql, [datos,id]);
         return result
     }
