@@ -24,4 +24,11 @@ export const conexion = await mysql.createConnection({
     password:'Root123.',
 })
 
+// export const conexion = await mysql.createConnection({
+//     host: 'localhost',
+//     user: 'nicolas',
+//     database:'reclamos',
+//     password:'admin',
+// })
+
 
