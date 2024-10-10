@@ -10,45 +10,54 @@ import nodemailer from 'nodemailer';
 
 dotenv.config();
 
-export default class NotificacionCorreo{
-    notificacionCorreo = async(request, response)=>{
-        const correoDestino = request.body.correoElectronico;
-        //console.log(correoDestino)
-  
-        const filename = fileURLToPath(import.meta.url);
-        const dir = path.dirname(`${filename}`)
-        const plantillaHTML = fs.readFileSync(path.join(dir + '../../../plantilla.hbs'), 'utf-8');
-        
-        const template = handlebars.compile(plantillaHTML);
-  
-        const datos = {
-          nombre: 'Maria',
-          reclamo:'01'
-      }
-      const correoHtml = template(datos)
-  
-      const transporte = nodemailer.createTransport(
-        {
-          service: 'gmail',
-          auth: {
-              user: process.env.CORREO, 
-              pass: process.env.CLAVE
-            }})
-  
-      const mailOptions = {
-            to: correoDestino ,
-            subject: "Reclamo", 
-            text: "This is a test email sent using Nodemailer.",
-            html: correoHtml,
-          };
-          
-      transporte.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.error("Error sending email: ", error);
-            } else {
-              console.log("Email sent: ", info.response);  
-            }
-          });
-        response.send(true)
+export default class NotificacionCorreo {
+  notificacionCorreo = async (request, response) => {
+
+    // datos del body
+    const correoDestino = request.body.correoElectronico;
+    const nombreUsuario = request.body.nombre; 
+    const reclamoId = request.body.reclamo;
+    
+    const filename = fileURLToPath(import.meta.url);
+    const dir = path.dirname(`${filename}`)
+    const plantillaHTML = fs.readFileSync(path.join(dir + '../../../plantilla.hbs'), 'utf-8');
+
+    const template = handlebars.compile(plantillaHTML);
+
+    
+
+    const datos = {
+      nombre: nombreUsuario,
+      reclamo: reclamoId
     }
+    const correoHtml = template(datos)
+
+    const transporte = nodemailer.createTransport(
+      {
+        service: 'gmail',
+        auth: {
+          user: process.env.CORREO,
+          pass: process.env.CLAVE
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      })
+
+    const mailOptions = {
+      to: correoDestino,
+      subject: "Reclamo",
+      text: "Estado de Reclamo fue modificado",
+      html: correoHtml,
+    };
+
+    transporte.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email: ", error);
+      } else {
+        console.log("Email sent: ", info.response);
+      }
+    });
+    response.send(true)
+  }
 }

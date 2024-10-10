@@ -5,6 +5,7 @@ import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.j
 import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRoutes.js"
 import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.js"
 
+dotenv.config();
 const app = express();
 app.use(express.json());
 
