@@ -17,11 +17,18 @@ export const conexion = await mysql.createConnection({
     
 
 
+// export const conexion = await mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     database:'reclamos',
+//     password:'Root123.',
+// })
+
 export const conexion = await mysql.createConnection({
     host: 'localhost',
-    user: 'root',
+    user: 'nicolas',
     database:'reclamos',
-    password:'Root123.',
+    password:'admin',
 })
 
 
