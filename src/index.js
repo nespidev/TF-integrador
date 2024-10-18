@@ -4,6 +4,7 @@ import { router as v1ReclamosEstadoRouter } from "./v1/routes/reclamosEstadosRou
 import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.js"
 import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRoutes.js"
 import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.js"
+import { router as v1Reclamos } from "./v1/routes/reclamosRoutes.js"
 
 dotenv.config();
 const app = express();
@@ -33,3 +34,5 @@ app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
 
 app.use('/api/v1/notificacion', v1NotificacionCorreo)
 app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
+
+app.use('/api/v1/reclamos', v1Reclamos);
