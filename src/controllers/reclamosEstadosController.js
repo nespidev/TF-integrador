@@ -24,15 +24,19 @@ export default class ReclamosEstadosController {
     try {
       //const { id } = request.params; // lo mismo 
       const id = request.params.id;
+      const error = this.#checkId(id);
+      if (error) {
+        return response.status(400).json(error);
+      }
       const result = await this.reclamosEstadosService.buscarPorId(id);
 
-      if (result.length === 0) {
+      if (!result || result.length === 0) {
         return response.status(400).json({ message: 'No se encontro el reclamo con ese id' });
       }
       response.status(200).json({ estado: true, result: result });
 
     } catch (error) {
-      response.status(500).json({ message: 'Error al obtener los reclamos ' + error.message });
+      response.status(500).json({ message: 'Lo sentimos, ha ocurrido un error en el servidor.' });
     }
   }
 
@@ -85,7 +89,11 @@ export default class ReclamosEstadosController {
       const { descripcion, activo } = request.body;
       const id = request.params.id;
 
-      console.log(activo)
+      const error = this.#checkId(id);
+      if (error) {
+        return response.status(400).json(error);
+      }
+
       if (!descripcion) {
         return response.status(404).json({
           mensaje: "Se requiere el campo descripcion"
@@ -105,10 +113,9 @@ export default class ReclamosEstadosController {
 
       const result = await this.reclamosEstadosService.actualizar(id, datos);
 
-      console.log(result)
       if (result.affectedRows === 0) {
         return response.status(404).json({
-          mensaje: "No se pudo modico la inf."
+          mensaje: "No se ha encontrado la información que estás buscando. Por favor, verifica los campos ingresados e intenta nuevamente."
         })
       }
 
@@ -124,5 +131,20 @@ export default class ReclamosEstadosController {
     }
   }
 
-   
+  #checkId(id) {
+    if (id === undefined) {
+      return { message: 'El id es requerido' };
+    }
+    if (isNaN(id)) {
+      return { message: 'El id debe ser un número' };
+    }
+    if (!Number.isInteger(Number(id))) {
+      return { message: 'El id debe ser un número entero' };
+    }
+    if (id <= 0) {
+      return { message: 'El id debe ser un número positivo' };
+    }
+    return null;
+  }
+
 }

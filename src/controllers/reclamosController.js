@@ -69,7 +69,7 @@ export default class ReclamosController {
     }
 
     modificar = async (req, res) => {
-        try{
+        try {
             const id = req.params.id;
             const error = this.#checkId(id);
             if (error) {
@@ -79,35 +79,38 @@ export default class ReclamosController {
             const datos = req.body;
             if (Object.keys(datos).length === 0) {
                 return res.status(400).send({
-                    estado:"Falla",
-                    mensaje: "No se enviaron datos para ser modificados."    
+                    estado: "Falla",
+                    mensaje: "No se enviaron datos para ser modificados."
                 });
             }
 
             const result = await this.service.modificar(id, datos);
-            if (result.estado){
-                res.status(200).send({estado:"OK", mensaje: result.mensaje, data: result.data});
-            }else{
-                res.status(404).send({estado:"Falla", mensaje: result.mensaje});
+            if (result.estado) {
+                res.status(200).send({ estado: "OK", mensaje: result.mensaje, data: result.data });
+            } else {
+                res.status(404).send({ estado: "Falla", mensaje: result.mensaje });
             }
 
-        }catch (error){
+        } catch (error) {
             console.log(error)
             res.status(500).send({
-                estado:"Falla", mensaje: "Error interno en servidor."
+                estado: "Falla", mensaje: "Error interno en servidor."
             });
         }
     }
 
     #checkId(id) {
+        if (id === undefined) {
+            return { message: 'El id es requerido' };
+        }
         if (isNaN(id)) {
             return { message: 'El id debe ser un número' };
         }
+        if (!Number.isInteger(Number(id))) {
+            return { message: 'El id debe ser un número entero' };
+        }
         if (id <= 0) {
             return { message: 'El id debe ser un número positivo' };
-        }
-        if (id === undefined) {
-            return { message: 'El id es requerido' };
         }
         return null;
     }
