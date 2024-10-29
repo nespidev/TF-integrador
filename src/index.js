@@ -5,12 +5,14 @@ import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.j
 import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRoutes.js"
 import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.js"
 import { router as v1Reclamos } from "./v1/routes/reclamosRoutes.js"
+import { router as v1OficinasRouter } from "./v1/routes/oficinasRoutes.js"
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 
 const puerto = process.env.PUERTO
+
 app.listen(puerto, () => {
     console.log( `Server is running on port ${puerto}`);
 });
@@ -36,3 +38,4 @@ app.use('/api/v1/notificacion', v1NotificacionCorreo)
 app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 app.use('/api/v1/reclamos', v1Reclamos);
+app.use('/api/v1/oficinas', v1OficinasRouter);
