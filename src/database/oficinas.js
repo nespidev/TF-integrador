@@ -4,13 +4,17 @@ import { conexion } from "./conexion.js";
 export default class Oficinas{
 
     buscarTodos= async()=>{
-        const sql = 'SELECT * FROM oficinas WHERE activo = 1;';
+        const sql = `SELECT oficinas.idOficina, oficinas.nombre, reclamos_tipo.descripcion, oficinas.activo FROM oficinas 
+        INNER JOIN reclamos_tipo ON reclamos_tipo.idReclamoTipo = oficinas.idReclamoTipo
+        WHERE oficinas.activo = 1`;
         const [result] = await conexion.query(sql);
         return result;
     } 
  
     buscarPorId = async (id) => {
-        const sql = 'SELECT * FROM oficinas WHERE activo = 1 AND idOficina = ?';
+        const sql = `SELECT oficinas.idOficina, oficinas.nombre, reclamos_tipo.descripcion, oficinas.activo FROM oficinas 
+        INNER JOIN reclamos_tipo ON reclamos_tipo.idReclamoTipo = oficinas.idReclamoTipo
+        WHERE oficinas.activo = 1 AND oficinas.idOficina = ?`;
         const [result] = await conexion.query(sql, [id]);
         return (result.length > 0) ? result[0] : null;
     }
