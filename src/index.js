@@ -6,6 +6,8 @@ import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRo
 import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.js"
 import { router as v1Reclamos } from "./v1/routes/reclamosRoutes.js"
 import { router as v1OficinasRouter } from "./v1/routes/oficinasRoutes.js"
+import { router as v1UsuariosRouter } from "./v1/routes/usuariosRouter.js"
+
 
 dotenv.config();
 const app = express();
@@ -39,3 +41,8 @@ app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 app.use('/api/v1/reclamos', v1Reclamos);
 app.use('/api/v1/oficinas', v1OficinasRouter);
+
+
+// ======================= usuario =======================
+app.use('/api/v1/usuarios', v1UsuariosRouter)
+// ======================= Fin usuario =======================
