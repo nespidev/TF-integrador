@@ -4,7 +4,9 @@ import { conexion } from "./conexion.js";
 export default class Oficinas{
 
     buscarTodos= async()=>{
-        const sql = `SELECT oficinas.idOficina, oficinas.nombre, reclamos_tipo.descripcion, oficinas.activo FROM oficinas 
+        const sql = `SELECT oficinas.idOficina, oficinas.nombre, oficinas.activo AS activo_oficina,
+        idReclamoTipo, reclamos_tipo.descripcion AS descripcion_reclamo, reclamos_tipo.activo AS activo_reclamo 
+        FROM oficinas 
         INNER JOIN reclamos_tipo ON reclamos_tipo.idReclamoTipo = oficinas.idReclamoTipo
         WHERE oficinas.activo = 1`;
         const [result] = await conexion.query(sql);
@@ -12,7 +14,9 @@ export default class Oficinas{
     } 
  
     buscarPorId = async (id) => {
-        const sql = `SELECT oficinas.idOficina, oficinas.nombre, reclamos_tipo.descripcion, oficinas.activo FROM oficinas 
+        const sql = `SELECT oficinas.idOficina, oficinas.nombre, oficinas.activo AS activo_oficina,
+        reclamos_tipo.descripcion AS descripcion_reclamo, reclamos_tipo.activo AS activo_reclamo 
+        FROM oficinas 
         INNER JOIN reclamos_tipo ON reclamos_tipo.idReclamoTipo = oficinas.idReclamoTipo
         WHERE oficinas.activo = 1 AND oficinas.idOficina = ?`;
         const [result] = await conexion.query(sql, [id]);
