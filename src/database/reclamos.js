@@ -1,11 +1,11 @@
 import { conexion } from "./conexion.js";
 
-export default class Reclamos{
+export default class Reclamos {
 
     buscarTodos = async () => {
         const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
-                        r.idReclamoEstado, re.descripcion AS "Descripción Estado", 
-                        r.idReclamoTipo, rt.descripcion AS "Descripción Tipo", 
+                        r.idReclamoEstado, re.descripcion AS descripción_estado, re.activo AS descripción_activo, 
+                        r.idReclamoTipo, rt.descripcion AS descripción_tipo, rt.activo AS descripción_activo, 
                         u.nombre AS "Creado por"
                         FROM reclamos AS r
                         INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
@@ -17,20 +17,21 @@ export default class Reclamos{
 
     buscarPorId = async (idReclamo) => {
         const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
-                        r.idReclamoEstado, re.descripcion AS "Descripción Estado", 
-                        r.idReclamoTipo, rt.descripcion AS "Descripción Tipo", 
+                        r.idReclamoEstado, re.descripcion AS descripción_estado, re.activo AS descripción_activo, 
+                        r.idReclamoTipo, rt.descripcion AS descripción_tipo, rt.activo AS descripción_activo,
                         u.nombre AS "Creado por"
                         FROM reclamos AS r
                         INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
                         INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado
                         INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador WHERE idReclamo = ?;`
-        const sql2 = `SELECT * FROM reclamos WHERE idReclamo = ?`;
+        //const sql2 = `SELECT * FROM reclamos WHERE idReclamo = ?`;
         const [result] = await conexion.query(sql, [idReclamo]);
         return result;
     }
-    
-    crear = async ({asunto, descripcion, idReclamoTipo, idUsuarioCreador}) => {
-        const sql = 'INSERT INTO reclamos (asunto, descripcion, fechaCreado, idReclamoTipo, idReclamoEstado, idUsuarioCreador) VALUES (?, ?, NOW(), 1, ?, ?)';
+
+    crear = async ({ asunto, descripcion, idReclamoTipo, idUsuarioCreador }) => {
+        const sql = `INSERT INTO reclamos (asunto, descripcion, fechaCreado, idReclamoTipo, idReclamoEstado, idUsuarioCreador) 
+        VALUES (?, ?, NOW(), 1, ?, ?)`;
         const [result] = await conexion.query(sql, [asunto, descripcion, idReclamoTipo, idUsuarioCreador]);
         return result;
     }
@@ -38,6 +39,33 @@ export default class Reclamos{
     modificar = async (id, datos) => {
         const sql = 'UPDATE reclamos SET ? WHERE idReclamo = ?';
         const [result] = await conexion.query(sql, [datos, id]);
+        return result;
+    }
+
+    buscarCliente = async (idReclamo) => {
+        const sql = `SELECT CONCAT(u.apellido, ' ', u.nombre) AS cliente, u.correoElectronico, rt.descripcion AS estado
+        FROM reclamos AS r
+        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador
+        INNER JOIN reclamos_estado AS rt ON rt.idReclamoEstado = r.idReclamoEstado 
+        WHERE r.idReclamo =?;`
+        const [result] = await conexion.query(sql, [idReclamo]);
+        return result;
+    }
+
+    consultar = async (idUsuarioCreador) => {
+        const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
+                        re.descripcion, CONCAT(u.apellido, ' ', u.nombre) AS "Creado por"
+                        FROM reclamos AS r
+                        INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
+                        INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado
+                        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador WHERE idUsuarioCreador = ?;`
+        const [result] = await conexion.query(sql, [idUsuarioCreador]);
+        return result;
+    }
+
+    cancelar = async (idReclamo, idReclamoCreador) => {
+        const sql = 'UPDATE reclamos SET idReclamoEstado =3, fechaCancelado = NOW() WHERE idReclamo = ? AND idUsuarioCreador = ? ;';
+        const [result] = await conexion.query(sql, [idReclamo, idReclamoCreador]);
         return result;
     }
 }

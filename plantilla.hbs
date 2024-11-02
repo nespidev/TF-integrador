@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Cambio de Estado</title>
@@ -10,33 +11,60 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: #ffffff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      padding: 30px;
+      background-color: #e6f7ff; /* Fondo de color sólido */
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       color: #020e5a;
+      font-size: 24px;
+      margin-bottom: 10px;
     }
+
+    h4 {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
     p {
-      color: #000;
-    }    
-    li {
-      color: #000;
-    } 
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      font-size: 14px; /* Aumentado el tamaño de la fuente */
+      color: #777;
+    }
+
+    .footer p {
+      margin: 5px 0;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Notificación de cambio de estado del reclamo</h1>
-    <h4>Estimado Sr/ra {{nombre}}</h4>
-    <p> Nos comunicamos para informarle que su reclamo nro {{reclamo}} 
-      a cambiado de estado. Ahora está ... </p>        
+    <h1>Notificación de Cambio de Estado del Reclamo</h1>
+    <h4>Estimado/a {{nombre}}.</h4>
+    <p>Nos comunicamos para informarle que su reclamo N° <strong>{{idReclamo}}</strong> ha cambiado de estado.</p>
+    <p><strong>Reclamo:</strong> N° {{idReclamo}}</p>
+    <p><strong>Estado:</strong> {{estado}}</p>
 
-    <p>Atte.</p>        
-    <h4>No responder este correo.... </h4>
+    <div class="footer">
+      <p>Atentamente,</p>
+      <p style="font-size: 16px;">No responder este correo.</p> <!-- Aumentado el tamaño del texto -->
+    </div>
   </div>
 </body>
+
 </html>

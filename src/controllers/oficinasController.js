@@ -9,7 +9,7 @@ export default class OficinasController {
   buscarTodos = async (request, response) => {
     try {
       const oficinas = await this.oficinasService.buscarTodos();
-      response.status(200).json(oficinas)
+      response.status(200).json({oficinas})
     } catch (error) {
       console.error(error);
       response.status(500).send({
