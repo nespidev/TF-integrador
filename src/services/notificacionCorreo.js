@@ -16,7 +16,7 @@ export default class NotificacionCorreo {
 
     const filename = fileURLToPath(import.meta.url);
     const dir = path.dirname(`${filename}`)
-    const plantillaHTML = fs.readFileSync(path.join(dir + '../../../plantilla.hbs'), 'utf-8');
+    const plantillaHTML = fs.readFileSync(path.join(dir, '../utiles/handlebars/plantilla.hbs'), 'utf-8');
 
     const template = handlebars.compile(plantillaHTML);
 

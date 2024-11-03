@@ -17,9 +17,11 @@ router.post('/', reclamosController.crear); // cliente
 
 router.get('/consultar/', reclamosController.consultar) // cliente
 
-router.patch('/cancelar/:id', reclamosController.cancelar); // cliente
+router.patch('/cancelar/:id?', reclamosController.cancelar); // cliente
 
-//router.get("/informe", reclamosController.informe);
+router.get("/informe/:formato?", reclamosController.informe); // admin
+
+router.get("/estadistica", reclamosController.estadística); // admin
 
 
 export {router};

@@ -68,4 +68,31 @@ export default class Reclamos {
         const [result] = await conexion.query(sql, [idReclamo, idReclamoCreador]);
         return result;
     }
+
+    buscarDatosReportePdf = async () => {        
+        const sql = 'CALL `datosPDF`()';
+
+        const [result] = await conexion.query(sql);
+
+        const datosReporte = {
+            reclamosTotales : result[0][0].reclamosTotales,
+            reclamosNoFinalizados : result[0][0].reclamosNoFinalizados,
+            reclamosFinalizados : result[0][0].reclamosFinalizados,
+            descripcionTipoRreclamoFrecuente : result[0][0].descripcionTipoRreclamoFrecuente,
+            cantidadTipoRreclamoFrecuente : result[0][0].cantidadTipoRreclamoFrecuente
+        }
+
+        return datosReporte;
+    }
+
+    buscarDatosReporteCsv = async () => {
+        const sql = `SELECT r.idReclamo as 'reclamo', rt.descripcion as 'tipo', re.descripcion AS 'estado',
+                    DATE_FORMAT(r.fechaCreado, '%Y-%m-%d %H:%i:%s') AS 'fechaCreado', CONCAT(u.nombre, ' ', u.apellido) AS 'cliente'
+                    FROM reclamos AS r 
+                    INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo 
+                    INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado 
+                    INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador `;
+        const [result] = await conexion.query(sql);
+        return result;
+    }
 }

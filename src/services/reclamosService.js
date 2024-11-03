@@ -1,12 +1,14 @@
 import e from "express";
 import Reclamos from "../database/reclamos.js";
 import NotificacionCorreo from "./notificacionCorreo.js";
+import InformeService from "./informesService.js";
 
 export default class ReclamosService {
 
     constructor() {
         this.reclamos = new Reclamos();
         this.notificacionCorreo = new NotificacionCorreo();
+        this.informeService = new InformeService();
     }
 
     buscarTodos = async () => {
@@ -82,6 +84,45 @@ export default class ReclamosService {
         return { estado: true, mensaje: 'Reclamo cancelado con exito' }
     }
 
+    generarInforme = async (formato) => {
+        if (formato === 'pdf') {
+            return await this.#reportePdf();
+        }else if (formato === 'csv'){ 
+            return await this.#reporteCsv();
+        }
+    }
+
+    #reportePdf = async () => {
+        const datosReporte = await this.reclamos.buscarDatosReportePdf();
+
+        if (!datosReporte || datosReporte.length === 0) {
+            return { estado: false, mensaje: 'Sin datos para el reporte'};
+        }
+        const pdf = await this.informeService.informeReclamosPdf(datosReporte);
+        return {
+            buffer: pdf,
+            headers: {
+                'Content-Type': 'application/pdf',
+                'Content-Disposition': 'inline; filename="reporte.pdf"'
+            }
+        };
+    }
+
+    #reporteCsv = async () => {
+        const datosReporte = await this.reclamos.buscarDatosReporteCsv();
+        if (!datosReporte || datosReporte.length === 0) {
+            return {estado: false, mensaje: 'Sin datos para el reporte'};
+        }
+        const csv =  await this.informeService.informeReclamosCsv(datosReporte);
+        return {
+            path: csv,
+            headers: {
+                'Content-Type': 'text/csv',
+                'Content-Disposition': 'attachment; filename="reporte.csv"'
+            }
+        };
+    }
+
     #envioCorreo = async (idReclamo) => {
         const cliente = await this.reclamos.buscarCliente(idReclamo)
         if (!cliente) {
@@ -94,6 +135,7 @@ export default class ReclamosService {
             idReclamo: idReclamo,
             estado: cliente[0].estado
         }
+        console.log("emviado?");
         return await this.notificacionCorreo.notificacionCorreo(datosCliente)
     }
 }
