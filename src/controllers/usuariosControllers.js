@@ -43,7 +43,7 @@ export default class UsuariosControllers{
       }
     
     crear = async (req, res) => {
-      const { nombre,apellido,correoElectronico,contrasenia,idTipoUsuario,imagen } = req.body;
+      const { nombre,apellido,correoElectronico,contrasenia,idUsuarioTipo,imagen } = req.body;
     
             if (apellido === undefined || apellido === null) {
               return res.status(400).send({
@@ -58,7 +58,7 @@ export default class UsuariosControllers{
             apellido,
             correoElectronico,
             contrasenia,
-            idTipoUsuario,
+            idUsuarioTipo,
             imagen
           }
     
