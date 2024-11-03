@@ -15,7 +15,9 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 
 //para pasport
-import passport from "passport"
+import passport from "passport";
+import session from "express-session";
+//import passport, { session } from "passport"
 import { estrategia, validacion } from "./config/passport.js"
 
 
@@ -56,7 +58,7 @@ app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
 
 app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
-app.use('/api/v1/reclamos', v1Reclamos);
+app.use('/api/v1/reclamos', passport.authenticate('jwt',{ session:false}), v1Reclamos);
 app.use('/api/v1/oficinas', v1OficinasRouter);
 app.use('/api/v1/usuarios-oficinas', v1UsuariosOficinasRouter)
 

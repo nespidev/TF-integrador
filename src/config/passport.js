@@ -22,8 +22,8 @@ async (correoElectronico, contrasenia, done) => {
 
             return done(null, false, { mensaje: 'Login incorrecto!' });
         }
-
         console.log("Login correcto");
+
         return done(null, usuario, { mensaje: 'Login correcto!' });
     } catch (exc) {
         done(exc);
@@ -43,6 +43,7 @@ const validacion = new JwtStrategy({
         if(!usuario){
             return done(null, false, { mensaje: 'Token incorrecto!'});
         }
+        
         return done(null, usuario); //req.user 
     }    
 )

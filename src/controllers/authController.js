@@ -21,7 +21,7 @@ export default class AuthController{
     
                     const payload = { idUsuario: usuario.idUsuario,
                                       usuario:usuario.usuario,
-                                      idTipoUsuario:usuario.idTipoUsuario
+                                      idUsuarioTipo:usuario.idUsuarioTipo
                                       
                     }; 
                     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30h' });
