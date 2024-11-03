@@ -34,8 +34,8 @@ export default class ReclamosController {
         }
     }
 
-    // al crear un nuevo reclamo siempre sera de estado 1 "creado"
-    // fechaCreado lo hago con NOW() de mysql
+    // crear nuevo reclamo siempre sera de estado 1 "creado"
+    // fechaCreado con NOW() de mysql
     crear = async (req, res) => {
         try {
             const { asunto, descripcion, idReclamoTipo, idUsuarioCreador } = req.body;
@@ -96,6 +96,86 @@ export default class ReclamosController {
             res.status(500).send({
                 estado: "Falla", mensaje: "Error interno en servidor."
             });
+        }
+    }
+
+    atender = async (request, response) => {
+        try {
+            const idReclamo = request.params.id
+            const idReclamoEstado = request.body.idReclamoEstado
+
+            const errorId = this.#checkId(idReclamo);
+            if (errorId) {
+                return response.status(400).json(errorId);
+            }
+    
+            const errorEstadoId = this.#checkId(idReclamoEstado)
+            if (errorEstadoId) {
+                return response.status(400).json(errorEstadoId);
+            }
+
+            const data = {
+                idReclamoEstado
+            }
+
+            const modificado = await this.service.atender(idReclamo, data)
+
+            if (!modificado.estado) {
+                return response.status(400).json({ estado: "ok", message: modificado.mensaje });
+            } else {
+                return response.status(200).json({ estado: "ok", message: modificado.mensaje });
+            }
+        } catch(error) {
+            console.error(error);
+            return response.status(500).json({ estado: "error", message: "Error interno en el servidor..." });
+        }
+    }
+
+    consultar = async (req, res) => {
+        try {
+            const idUsuarioCreador =  req.body.idUsuarioCreador;
+            //console.log(idUsuarioCreador)
+            const error = this.#checkId(idUsuarioCreador);
+            if (error) {
+                return res.status(400).json(error);
+            }
+
+            const result = await this.service.consultar(idUsuarioCreador);
+            if (result === null) {
+                return res.status(400).json({ message: 'No tiene reclamos Creados' });
+            }
+
+            res.status(200).json({ estado: true, result: result });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Error interno en el servidor" });
+        }
+    }
+
+    cancelar = async (req, res) => {
+        try {
+            
+            const idUsuarioCreador=  req.body.idUsuarioCreador;
+            const idReclamo = req.params.id;
+            const error = this.#checkId(idReclamo);
+            if (error) {
+                return res.status(400).json(error);
+            }
+
+            
+            if (idUsuarioCreador === undefined) {
+                return res.status(400).send({
+                    estado: "Falla",
+                    mensaje: "Faltan datos obligatorios."
+                })
+            }
+
+            const reclamoCancelado = await this.service.cancelar(idReclamo, idUsuarioCreador)
+
+            res.status(200).json({ estado: true, result: reclamoCancelado });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Error interno en el servidor" });
         }
     }
 

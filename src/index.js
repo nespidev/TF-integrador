@@ -2,12 +2,22 @@ import express, { json } from "express"
 import dotenv from "dotenv"
 import { router as v1ReclamosEstadoRouter } from "./v1/routes/reclamosEstadosRoutes.js"
 import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.js"
-import { router as v1NotificacionCorreo } from "./v1/routes/notificacionCorreoRoutes.js"
+
 import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.js"
 import { router as v1Reclamos } from "./v1/routes/reclamosRoutes.js"
 import { router as v1OficinasRouter } from "./v1/routes/oficinasRoutes.js"
 import { router as v1UsuariosRouter } from "./v1/routes/usuariosRouter.js"
 import { router as v1UsuariosOficinasRouter} from "./v1/routes/usuariosOficinasRoutes.js"
+import { router as v1AuthRouter } from "./v1/routes/authRoutes.js"
+
+import swaggerUi from 'swagger-ui-express'
+import swaggerJsdoc from 'swagger-jsdoc';
+
+
+//para pasport
+import passport from "passport"
+import { estrategia, validacion } from "./config/passport.js"
+
 
 dotenv.config();
 const app = express();
@@ -27,6 +37,13 @@ app.get("/", (req, res) => {
 });
 // ======================= fin test =======================
 
+//======================= pasport =======================
+//utiliza la estrategia and validacion
+passport.use(estrategia)
+passport.use(validacion)
+app.use(passport.initialize())
+//======================= Fin pasport =======================
+
 
 // ======================= Envio de correo =======================
 app.use(express.json()); 
@@ -36,7 +53,7 @@ app.use(express.json());
 app.use('/api/v1/reclamos-estados', v1ReclamosEstadoRouter)
 app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
 
-app.use('/api/v1/notificacion', v1NotificacionCorreo)
+
 app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 app.use('/api/v1/reclamos', v1Reclamos);
@@ -46,3 +63,8 @@ app.use('/api/v1/usuarios-oficinas', v1UsuariosOficinasRouter)
 // ======================= usuario =======================
 app.use('/api/v1/usuarios', v1UsuariosRouter)
 // ======================= Fin usuario =======================
+
+
+//======================= pasport =======================
+app.use('/api/v1/auth', v1AuthRouter)
+//======================= Fin pasport =======================
