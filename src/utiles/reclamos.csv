@@ -1,0 +1,36 @@
+RECLAMO,TIPO,ESTADO,FECHA CREADO,CLIENTE
+5,Aprobación de cobertura hoy,Finalizado,2024-08-19 06:00:00,Yara Greyjoy
+6,Aprobación de cobertura hoy,Cancelado,2024-08-19 07:00:00,Catelyn Stark
+7,Falla de frenos,Cancelado,2024-08-15 07:15:00,Catelyn Stark
+8,Falla de suspensión,Cancelado,2024-08-15 08:00:00,Khal Drogo
+9,Aprobación de cobertura,Cancelado,2024-08-15 09:30:00,Khal Drogo
+10,Aprobación de cobertura,En Proceso,2024-08-15 09:00:00,Khal Drogo
+11,Falla de suspensión,En Proceso,2024-08-15 15:00:00,Catelyn Stark
+15,Aprobación de cobertura hoy,Cancelado,2024-08-28 19:26:12,Jose Battaglia
+17,Aprobación de cobertura hoy,En Proceso,2024-10-16 17:41:09,Yara Greyjoy
+18,Aprobación de cobertura hoy,Cancelado,2024-10-16 17:42:02,Yara Greyjoy
+19,Aprobación de cobertura hoy,Creado nuevo,2024-10-16 17:42:27,Yara Greyjoy
+20,Aprobación de cobertura hoy,Creado nuevo,2024-10-16 17:42:30,Yara Greyjoy
+21,Aprobación de cobertura hoy,Creado nuevo,2024-10-16 17:42:31,Yara Greyjoy
+22,Aprobación de cobertura hoy,Creado nuevo,2024-10-16 17:43:41,Yara Greyjoy
+23,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:27:28,Yara Greyjoy
+24,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:28:10,Yara Greyjoy
+25,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:28:30,Yara Greyjoy
+26,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:28:54,Yara Greyjoy
+27,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:36:32,Yara Greyjoy
+28,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:37:13,Yara Greyjoy
+29,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:38:00,Yara Greyjoy
+30,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:39:17,Yara Greyjoy
+31,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:40:01,Yara Greyjoy
+32,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:41:06,Yara Greyjoy
+33,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 16:42:33,Yara Greyjoy
+34,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:02:16,Yara Greyjoy
+35,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:03:46,Yara Greyjoy
+36,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:04:48,Yara Greyjoy
+37,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:05:12,Yara Greyjoy
+38,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:19:01,Yara Greyjoy
+39,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:20:35,Yara Greyjoy
+40,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:21:17,Yara Greyjoy
+41,Aprobación de cobertura hoy,Creado nuevo,2024-10-17 17:23:07,Yara Greyjoy
+42,Aprobación de cobertura hoy,Creado nuevo,2024-10-18 15:04:29,Yara Greyjoy
+43,Aprobación de cobertura hoy,Creado nuevo,2024-10-28 15:36:59,Yara Greyjoy

@@ -179,6 +179,47 @@ export default class ReclamosController {
         }
     }
 
+    informe = async (req, res) => {
+        const formatosPermitidos = ['pdf', 'csv'];
+
+        try{
+            const formato = req.params.formato;
+            console.log(formato)
+            console.log(formatosPermitidos)
+            if(!formato || !formatosPermitidos.includes(formato)){
+                return res.status(400).send({
+                    estado:"Falla",
+                    mensaje: "Formato inválido para el informe."    
+                })
+            }
+            
+            const {buffer, path, headers} = await this.service.generarInforme(formato);
+            res.set(headers)
+
+            if (formato === 'pdf') { 
+                res.status(200).end(buffer);
+            } else if (formato === 'csv') {
+                res.status(200).download(path, (err) => {
+                    if (err) {
+                        return res.status(500).send({
+                            estado:"Falla",
+                            mensaje: " No se pudo generar el informe."    
+                        })
+                    }
+                })
+            }
+        }catch(error){
+            console.log(error)
+            res.status(500).send({
+                estado:"Falla", mensaje: "Error interno en servidor."
+            });
+        } 
+    }
+
+    estadística = async (request, response) => {
+        
+    }
+
     #checkId(id) {
         if (id === undefined) {
             return { message: 'El id es requerido' };
