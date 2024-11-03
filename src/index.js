@@ -7,6 +7,7 @@ import { router as v1ReclamosTipoRouter } from "./v1/routes/reclamosTipoRoutes.j
 import { router as v1Reclamos } from "./v1/routes/reclamosRoutes.js"
 import { router as v1OficinasRouter } from "./v1/routes/oficinasRoutes.js"
 import { router as v1UsuariosRouter } from "./v1/routes/usuariosRouter.js"
+import { router as v1UsuariosOficinasRouter} from "./v1/routes/usuariosOficinasRoutes.js"
 import { router as v1AuthRouter } from "./v1/routes/authRoutes.js"
 
 import swaggerUi from 'swagger-ui-express'
@@ -57,7 +58,7 @@ app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 app.use('/api/v1/reclamos', v1Reclamos);
 app.use('/api/v1/oficinas', v1OficinasRouter);
-
+app.use('/api/v1/usuarios-oficinas', v1UsuariosOficinasRouter)
 
 // ======================= usuario =======================
 app.use('/api/v1/usuarios', v1UsuariosRouter)
