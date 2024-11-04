@@ -108,7 +108,7 @@ export default class ReclamosController {
             if (errorId) {
                 return response.status(400).json(errorId);
             }
-    
+
             const errorEstadoId = this.#checkId(idReclamoEstado)
             if (errorEstadoId) {
                 return response.status(400).json(errorEstadoId);
@@ -125,7 +125,7 @@ export default class ReclamosController {
             } else {
                 return response.status(200).json({ estado: "ok", message: modificado.mensaje });
             }
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             return response.status(500).json({ estado: "error", message: "Error interno en el servidor..." });
         }
@@ -133,15 +133,15 @@ export default class ReclamosController {
 
     consultar = async (req, res) => { //! esto busca por body
         try {
-            const idUsuarioCreador =  req.user.idUsuario;
-            
+            const idUsuarioCreador = req.user.idUsuario;
+
             //console.log(idUsuarioCreador)
             const error = this.#checkId(idUsuarioCreador);
             if (error) {
                 return res.status(400).json(error);
             }
 
-            const result = await this.service.consultar(idUsuarioCreador); 
+            const result = await this.service.consultar(idUsuarioCreador);
             if (result === null) {
                 return res.status(400).json({ message: 'No tiene reclamos Creados' });
             }
@@ -156,15 +156,15 @@ export default class ReclamosController {
 
     cancelar = async (req, res) => {
         try {
-            
-            const idUsuarioCreador=  req.body.idUsuarioCreador;
-           const idReclamo = req.params.id;
-           const error = this.#checkId(idReclamo);
+
+            const idUsuarioCreador = req.user.idUsuario;
+            const idReclamo = req.params.id;
+            const error = this.#checkId(idReclamo);
             if (error) {
                 return res.status(400).json(error);
             }
 
-            
+
             if (idUsuarioCreador === undefined) {
                 return res.status(400).send({
                     estado: "Falla",
@@ -184,42 +184,42 @@ export default class ReclamosController {
     informe = async (req, res) => {
         const formatosPermitidos = ['pdf', 'csv'];
 
-        try{
+        try {
             const formato = req.params.formato;
             console.log(formato)
             console.log(formatosPermitidos)
-            if(!formato || !formatosPermitidos.includes(formato)){
+            if (!formato || !formatosPermitidos.includes(formato)) {
                 return res.status(400).send({
-                    estado:"Falla",
-                    mensaje: "Formato inválido para el informe."    
+                    estado: "Falla",
+                    mensaje: "Formato inválido para el informe."
                 })
             }
-            
-            const {buffer, path, headers} = await this.service.generarInforme(formato);
+
+            const { buffer, path, headers } = await this.service.generarInforme(formato);
             res.set(headers)
 
-            if (formato === 'pdf') { 
+            if (formato === 'pdf') {
                 res.status(200).end(buffer);
             } else if (formato === 'csv') {
                 res.status(200).download(path, (err) => {
                     if (err) {
                         return res.status(500).send({
-                            estado:"Falla",
-                            mensaje: " No se pudo generar el informe."    
+                            estado: "Falla",
+                            mensaje: " No se pudo generar el informe."
                         })
                     }
                 })
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
             res.status(500).send({
-                estado:"Falla", mensaje: "Error interno en servidor."
+                estado: "Falla", mensaje: "Error interno en servidor."
             });
-        } 
+        }
     }
 
     estadística = async (request, response) => {
-        
+
     }
 
     #checkId(id) {

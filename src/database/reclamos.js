@@ -56,7 +56,7 @@ export default class Reclamos {
         const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
                         re.descripcion, CONCAT(u.apellido, ' ', u.nombre) AS "Creado por"
                         FROM reclamos AS r
-                        INNER JOIN reclamos_tipo AS rt ON rt.idReclamosTipo = r.idReclamoTipo
+                        INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
                         INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado
                         INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador WHERE idUsuarioCreador = ?;`
         const [result] = await conexion.query(sql, [idUsuarioCreador]);
