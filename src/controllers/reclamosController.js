@@ -131,16 +131,17 @@ export default class ReclamosController {
         }
     }
 
-    consultar = async (req, res) => {
+    consultar = async (req, res) => { //! esto busca por body
         try {
-            const idUsuarioCreador =  req.body.idUsuarioCreador;
+            const idUsuarioCreador =  req.user.idUsuario;
+            
             //console.log(idUsuarioCreador)
             const error = this.#checkId(idUsuarioCreador);
             if (error) {
                 return res.status(400).json(error);
             }
 
-            const result = await this.service.consultar(idUsuarioCreador);
+            const result = await this.service.consultar(idUsuarioCreador); 
             if (result === null) {
                 return res.status(400).json({ message: 'No tiene reclamos Creados' });
             }
@@ -152,12 +153,13 @@ export default class ReclamosController {
         }
     }
 
+
     cancelar = async (req, res) => {
         try {
             
             const idUsuarioCreador=  req.body.idUsuarioCreador;
-            const idReclamo = req.params.id;
-            const error = this.#checkId(idReclamo);
+           const idReclamo = req.params.id;
+           const error = this.#checkId(idReclamo);
             if (error) {
                 return res.status(400).json(error);
             }

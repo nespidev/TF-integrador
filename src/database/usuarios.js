@@ -3,7 +3,7 @@ import { conexion } from "./conexion.js";
 export default class Usuario {
 
         buscarPorId = async (id) => {
-            const sql =  `SELECT usuarios.nombre,usuarios.apellido,usuarios.correoElectronico,usuarios.idUsuarioTipo,
+            const sql =  `SELECT usuarios.nombre,usuarios.apellido,usuarios.correoElectronico,usuarios.idUsuarioTipo,usuarios.idUsuario,
              usuarios_tipo.descripcion AS usuarioTipoDescripcion, usuarios_tipo.activo AS tipoActivo,
              usuarios.imagen, usuarios.activo AS usuarioActivo
              FROM usuarios 

@@ -21,6 +21,7 @@ import session from "express-session";
 import { estrategia, validacion } from "./config/passport.js"
 
 
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -58,7 +59,8 @@ app.use('/api/v1/usuarios-tipo', v1UsuariosTipoRouter)
 
 app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
-app.use('/api/v1/reclamos', passport.authenticate('jwt',{ session:false}), v1Reclamos);
+
+app.use('/api/v1/reclamos',passport.authenticate('jwt',{ session: false}), v1Reclamos);
 app.use('/api/v1/oficinas', v1OficinasRouter);
 app.use('/api/v1/usuarios-oficinas', v1UsuariosOficinasRouter)
 

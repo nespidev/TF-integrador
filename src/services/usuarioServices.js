@@ -11,13 +11,8 @@ export default class UsuariosService {
     }
 
     buscar = async (correoElectronico, contrasenia) => {
-
-        console.log("Correo y contraseña recibidos:", correoElectronico, contrasenia);
-
         const usuario = await this.usuarios.buscar(correoElectronico, contrasenia);
-
-        console.log("Usuario encontrado:", usuario); // Debe mostrar el usuario si lo encuentra
-
+        
         return usuario;
     }
 

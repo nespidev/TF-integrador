@@ -18,11 +18,9 @@ async (correoElectronico, contrasenia, done) => {
         const usuario = await service.buscar(correoElectronico, contrasenia);//*lo buscamos en la base de datos 
 
         if (!usuario) {
-            console.log("Login incorrecto");
 
             return done(null, false, { mensaje: 'Login incorrecto!' });
         }
-        console.log("Login correcto");
 
         return done(null, usuario, { mensaje: 'Login correcto!' });
     } catch (exc) {
@@ -35,7 +33,7 @@ async (correoElectronico, contrasenia, done) => {
 const validacion = new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
-    // ignoreExpiration: true //por defecto se evalúa el campo de expiración a menos que le diga que lo ignore
+    //ignoreExpiration: true //por defecto se evalúa el campo de expiración a menos que le diga que lo ignore
 },
     async (jwtPayload, done) => {
         const service = new UsuariosService();
