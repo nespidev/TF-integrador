@@ -61,8 +61,8 @@ app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 
 app.use('/api/v1/reclamos',passport.authenticate('jwt',{ session: false}), v1Reclamos);
-app.use('/api/v1/oficinas', v1OficinasRouter);
-app.use('/api/v1/usuarios-oficinas', v1UsuariosOficinasRouter)
+app.use('/api/v1/oficinas',passport.authenticate('jwt',{ session: false}), v1OficinasRouter);
+app.use('/api/v1/usuarios-oficinas',passport.authenticate('jwt',{ session: false}), v1UsuariosOficinasRouter)
 
 // ======================= usuario =======================
 app.use('/api/v1/usuarios', v1UsuariosRouter)
