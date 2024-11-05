@@ -65,7 +65,7 @@ app.use('/api/v1/oficinas',passport.authenticate('jwt',{ session: false}), v1Ofi
 app.use('/api/v1/usuarios-oficinas',passport.authenticate('jwt',{ session: false}), v1UsuariosOficinasRouter)
 
 // ======================= usuario =======================
-app.use('/api/v1/usuarios', v1UsuariosRouter)
+app.use('/api/v1/usuarios',passport.authenticate('jwt',{ session: false}), v1UsuariosRouter)
 // ======================= Fin usuario =======================
 
 
