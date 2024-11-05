@@ -1,19 +1,21 @@
 import express from "express";
 import UsuariosOficinasController from "../../controllers/usuariosOficinasController.js";
+import { auth } from "../../middlewares/authMiddleware.js";
+import { Roles } from "../../utiles/roles.js"
 
 const router = express.Router();
 
 const usuariosOficinasController = new UsuariosOficinasController();
 
-router.get('/', usuariosOficinasController.buscarTodos);
+router.get('/',auth([Roles.ADMIN]), usuariosOficinasController.buscarTodos);
 
-router.get('/:id', usuariosOficinasController.buscarPorId);
+router.get('/:id',auth([Roles.ADMIN]), usuariosOficinasController.buscarPorId);
 
-router.post('/', usuariosOficinasController.crear);
+router.post('/',auth([Roles.ADMIN]), usuariosOficinasController.crear);
 
-router.patch('/:id', usuariosOficinasController.actualizar);
+router.patch('/:id',auth([Roles.ADMIN]), usuariosOficinasController.actualizar);
 
-router.delete('/:id', usuariosOficinasController.eliminar);
+router.put('/:id',auth([Roles.ADMIN]), usuariosOficinasController.eliminar);
 
 
 export {router};
