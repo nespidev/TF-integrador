@@ -27,8 +27,8 @@ export default class UsuariosOficinas {
     }
 
     eliminar = async (id) => {
-        const sql = 'DELETE FROM usuarios_oficinas WHERE activo = 1 AND idUsuarioOficina = ?';
+        const sql = 'UPDATE usuarios_oficinas SET activo = 0 WHERE idUsuarioOficina = ?';
         const [result] = await conexion.query(sql, [id]);
-        return (result.length > 0) ? result[0] : null;
+        return result
     }
 }
