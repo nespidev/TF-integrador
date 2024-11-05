@@ -222,6 +222,23 @@ export default class ReclamosController {
 
     }
 
+    oficina = async (request, response) => {
+        try {
+            const idUsuario = request.user.idUsuario;
+            console.log("ID del usuario:", idUsuario);
+    
+            const oficina = await this.service.oficina(idUsuario);
+            if (!oficina) {
+                return response.status(404).json({ estado: "Falla", message: 'No hay oficina asociada al usuario.' });
+            }
+    
+            response.status(200).json({ estado: true, result: oficina });
+        } catch (error) {
+            console.error("Error al obtener oficina:", error);
+            response.status(500).json({ estado: "Falla", message: "Error interno del servidor al obtener la oficina." });
+        }
+    };
+
     #checkId(id) {
         if (id === undefined) {
             return { message: 'El id es requerido' };

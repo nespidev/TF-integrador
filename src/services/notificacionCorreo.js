@@ -41,7 +41,7 @@ export default class NotificacionCorreo {
       })
 
     const mailOptions = {
-      to: "artemio.derkachev@gmail.com", //datosCliente.correoElectronico,
+      to: datosCliente.correoElectronico,
       subject: "Reclamo",
       text: "Estado de Reclamo fue modificado",
       html: correoHtml,

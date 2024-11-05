@@ -14,7 +14,7 @@ export default class Oficinas{
     } 
  
     buscarPorId = async (id) => {
-        const sql = `SELECT oficinas.idOficina, oficinas.nombre, oficinas.activo AS activo_oficina,
+        const sql = `SELECT oficinas.idOficina, oficinas.nombre, oficinas.activo AS activo_oficina, oficinas.idReclamoTipo,
         reclamos_tipo.descripcion AS descripcion_reclamo, reclamos_tipo.activo AS activo_reclamo 
         FROM oficinas 
         INNER JOIN reclamos_tipo ON reclamos_tipo.idReclamoTipo = oficinas.idReclamoTipo

@@ -14,6 +14,12 @@ export default class UsuariosOficinas {
         return (result.length > 0) ? result[0] : null;
     }
 
+    buscarPorIdUsuario = async (id) => {
+        const sql = 'SELECT * FROM usuarios_oficinas WHERE activo = 1 AND idUsuario = ?';
+        const [result] = await conexion.query(sql, [id]);
+        return (result.length > 0) ? result : null;
+    }
+
     crear = async ({idUsuario, idOficina, activo}) => {        
         const sql = 'INSERT INTO usuarios_oficinas (idUsuario, idOficina, activo) VALUES (?,?,?)';
         const [result] = await conexion.query(sql, [idUsuario, idOficina, activo]);

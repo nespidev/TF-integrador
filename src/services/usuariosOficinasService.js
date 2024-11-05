@@ -15,6 +15,10 @@ export default class UsuariosOficinasService{
         return this.usuariosOficinas.buscarPorId(id);
     }
 
+    buscarPorIdUsuario = (id) =>{
+        return this.usuariosOficinas.buscarPorIdUsuario(id);
+    }
+
     crear = (usuariosOficinas) => {
         return this.usuariosOficinas.crear(usuariosOficinas);
     }

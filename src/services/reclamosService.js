@@ -2,6 +2,8 @@ import e from "express";
 import Reclamos from "../database/reclamos.js";
 import NotificacionCorreo from "./notificacionCorreo.js";
 import InformeService from "./informesService.js";
+import OficinasService from "./oficinasService.js";
+import UsuariosOficinas from "../database/usuariosOficinas.js";
 
 export default class ReclamosService {
 
@@ -9,6 +11,8 @@ export default class ReclamosService {
         this.reclamos = new Reclamos();
         this.notificacionCorreo = new NotificacionCorreo();
         this.informeService = new InformeService();
+        this.usuarioOficinas = new UsuariosOficinas()
+        this.oficinasService = new OficinasService()
     }
 
     buscarTodos = async () => {
@@ -90,6 +94,24 @@ export default class ReclamosService {
         }else if (formato === 'csv'){ 
             return await this.#reporteCsv();
         }
+    }
+
+    oficina = async (id) => {
+        const oficina = await this.usuarioOficinas.buscarPorIdUsuario(id);
+        if (!oficina || oficina.length === 0) {
+            return { estado: false, mensaje: 'Empledao sin oficina' };
+        }
+
+        const oficinaId = oficina[0].idOficina
+        
+        const oficinaResult = await this.oficinasService.buscarPorId(oficinaId);
+        if (!oficinaResult || oficinaResult.length === 0) {
+            return { estado: false, mensaje: 'Oficina no encontrada' };
+        }
+        const idReclamoTipo = oficinaResult.idReclamoTipo
+        const reclamosList = await this.reclamos.reclamosPorOficina(idReclamoTipo)
+
+        return reclamosList;
     }
 
     #reportePdf = async () => {
