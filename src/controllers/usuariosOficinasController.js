@@ -104,21 +104,21 @@ export default class UsuariosOficinasController {
           }
     
           if (!idUsuario) {
-            return res.status(400).send({
+            return response.status(400).send({
               estado: "falla",
               mensaje: "se requiere el campo idUsuario."
             })
           }
           
           if (!idOficina) {
-            return res.status(400).send({
+            return response.status(400).send({
               estado: "falla",
               mensaje: "se requiere el campo idOficina."
             })
           }
       
           if (activo === undefined || activo === null) {
-            return res.status(400).send({
+            return response.status(400).send({
               estado: "falla",
               mensaje: "Se requiere el campo activo."
             })
