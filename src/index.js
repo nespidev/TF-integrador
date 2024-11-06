@@ -57,7 +57,7 @@ app.use('/api/v1/reclamos-estados', v1ReclamosEstadoRouter)
 app.use('/api/v1/usuarios-tipo',passport.authenticate('jwt',{ session: false}), v1UsuariosTipoRouter)
 
 
-app.use('/api/v1/reclamos-tipo',passport.authenticate('jwt',{ session: false}), v1ReclamosTipoRouter);
+app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
 
 
 app.use('/api/v1/reclamos',passport.authenticate('jwt',{ session: false}), v1Reclamos);
