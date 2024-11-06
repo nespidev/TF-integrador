@@ -12,6 +12,6 @@ router.get("/",auth([Roles.ADMIN]), usuariosTipoController.buscarTodos);
 router.post('/',auth([Roles.ADMIN]), usuariosTipoController.crear);
 
 //patch => actualiza 
-router.patch("/:id",auth([Roles.ADMIN]), usuariosTipoController.actualizar)
+router.patch("/:id",auth([Roles.ADMIN,Roles.CLIENTE]), usuariosTipoController.actualizar)
 
 export {router};
