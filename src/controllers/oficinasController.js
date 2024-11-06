@@ -1,16 +1,15 @@
-import { request, response } from "express";
-import UsuariosTipoService from "../services/usuariosTipoService.js";
+import OficinasService from "../services/oficinasService.js"
 
-export default class UsuariosTipoController {
+export default class OficinasController {
 
   constructor() {
-    this.usuariosTipoService = new UsuariosTipoService;
+    this.oficinasService = new OficinasService();
   }
 
   buscarTodos = async (request, response) => {
     try {
-      const usuariosTipo = await this.usuariosTipoService.buscarTodos();
-      response.status(200).json(usuariosTipo)
+      const oficinas = await this.oficinasService.buscarTodos();
+      response.status(200).json({oficinas})
     } catch (error) {
       console.error(error);
       response.status(500).send({
@@ -27,10 +26,10 @@ export default class UsuariosTipoController {
       if (error) {
         return response.status(400).json(error);
       }
-      const result = await this.usuariosTipoService.buscarPorId(id);
+      const result = await this.oficinasService.buscarPorId(id);
 
       if (!result || result.length === 0) {
-        return response.status(400).json({ message: 'No se encontro tipo de usuario con ese id' });
+        return response.status(400).json({ message: 'No se encontro oficina con ese id' });
       }
       response.status(200).json({ estado: true, result: result });
 
@@ -41,11 +40,18 @@ export default class UsuariosTipoController {
 
   crear = async (req, res) => {
 
-    const { descripcion, activo } = req.body;
-    if (!descripcion) {
+    const { nombre, idReclamoTipo, activo } = req.body;
+    if (!nombre) {
       return res.status(400).send({
         estado: "falla",
-        mensaje: "se requiere el campo descripción."
+        mensaje: "se requiere el campo nombre."
+      })
+    }
+    
+    if (!idReclamoTipo) {
+      return res.status(400).send({
+        estado: "falla",
+        mensaje: "se requiere el campo idReclamoTipo."
       })
     }
 
@@ -57,21 +63,22 @@ export default class UsuariosTipoController {
     }
 
     try {
-      const usuarioTipo = {
-        descripcion,
+      const oficina = {
+        nombre,
+        idReclamoTipo,
         activo
       }
 
-      const result = await this.usuariosTipoService.crear(usuarioTipo);
+      const result = await this.oficinasService.crear(oficina);
       if (result.affectedRows === 0) {
         return res.status(404).json({
-          mensaje: "No se pudo crear el tipo de usuario."
+          mensaje: "No se pudo crear la oficina."
         })
       }
 
-      const nuevoUsuariosTipo = await this.usuariosTipoService.buscarPorId(result.insertId);
+      const nuevaOficina = await this.oficinasService.buscarPorId(result.insertId);
       res.status(201).send({
-        estado: "Ok", data: nuevoUsuariosTipo
+        estado: "Ok", data: nuevaOficina
       });
 
     } catch (error) {
@@ -85,7 +92,7 @@ export default class UsuariosTipoController {
 
   actualizar = async (request, response) => {
     try {
-      const { descripcion, activo } = request.body;
+      const { nombre, idReclamoTipo, activo } = request.body;
       const id = request.params.id;
 
       const error = this.#checkId(id);
@@ -93,24 +100,36 @@ export default class UsuariosTipoController {
         return response.status(400).json(error);
       }
 
-      if (!descripcion) {
+      const errorReclamo = this.#checkId(idReclamoTipo);
+      if (errorReclamo) {
+        return response.status(400).json(error);
+      }
+
+      if (!nombre) {
         return response.status(404).json({
-          mensaje: "Se requiere el campo descripcion"
+          mensaje: "Se requiere el campo nombre"
+        })
+      }
+
+      if (!idReclamoTipo) {
+        return response.status(404).json({
+          mensaje: "Se requiere el campo idReclamoTipo"
         })
       }
 
       if (!activo) {
         return response.status(404).json({
-          mensaje: "Se requiere completar el campo activo"
+          mensaje: "Se requiere el campo activo"
         })
       }
 
       const datos = {
-        descripcion: descripcion,
+        nombre: nombre,
+        idReclamoTipo: idReclamoTipo,
         activo: activo
       }
 
-      const result = await this.usuariosTipoService.actualizar(id, datos);
+      const result = await this.oficinasService.actualizar(id, datos);
 
       console.log(result)
       if (result.affectedRows === 0) {
@@ -120,7 +139,7 @@ export default class UsuariosTipoController {
       }
 
       response.status(200).json({
-        mensaje: "Tipo de usuarios modificado"
+        mensaje: "Oficina modificada"
       })
 
     } catch (error) {

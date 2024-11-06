@@ -1,5 +1,5 @@
 import { request, response } from "express";
-import ReclamosEstadosService from "../services/reclamosEstadosService.js";
+import ReclamosEstadosService from "./reclamosEstadosService.js";
 
 import { fileURLToPath } from 'url';
 import path from 'path'
@@ -11,25 +11,21 @@ import nodemailer from 'nodemailer';
 dotenv.config();
 
 export default class NotificacionCorreo {
-  notificacionCorreo = async (request, response) => {
 
-    // datos del body
-    const correoDestino = request.body.correoElectronico;
-    const nombreUsuario = request.body.nombre; 
-    const reclamoId = request.body.reclamo;
-    
+  notificacionCorreo = async (datosCliente) => {
+
     const filename = fileURLToPath(import.meta.url);
     const dir = path.dirname(`${filename}`)
-    const plantillaHTML = fs.readFileSync(path.join(dir + '../../../plantilla.hbs'), 'utf-8');
+    const plantillaHTML = fs.readFileSync(path.join(dir, '../utiles/handlebars/plantilla.hbs'), 'utf-8');
 
     const template = handlebars.compile(plantillaHTML);
 
-    
-
     const datos = {
-      nombre: nombreUsuario,
-      reclamo: reclamoId
+      nombre: datosCliente.nombre,
+      idReclamo: datosCliente.idReclamo,
+      estado: datosCliente.estado
     }
+    //console.log(datos)
     const correoHtml = template(datos)
 
     const transporte = nodemailer.createTransport(
@@ -45,19 +41,20 @@ export default class NotificacionCorreo {
       })
 
     const mailOptions = {
-      to: correoDestino,
+      to: datosCliente.correoElectronico,
       subject: "Reclamo",
       text: "Estado de Reclamo fue modificado",
       html: correoHtml,
     };
 
-    transporte.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error("Error sending email: ", error);
-      } else {
-        console.log("Email sent: ", info.response);
-      }
-    });
-    response.send(true)
+    try {
+      const info = await transporte.sendMail(mailOptions);
+      console.log("Email sent: ", info.response);
+      return { estado: 'OK', mensaje: 'Correo enviado correctamente' };
+    } catch (error) {
+      console.error("Error sending email: ", error);
+      return { estado: 'Falla', mensaje: 'Error al enviar el correo' };
+    }
+
   }
 }
