@@ -8,20 +8,20 @@ export const conexion = await mysql.createConnection({
 })
 
 */
-export const conexion = await mysql.createConnection({
-    host: 'localhost',
-    user: 'artemio',
-    database: 'reclamos',
-    password: 'admin',
-})
+// export const conexion = await mysql.createConnection({
+//     host: 'localhost',
+//     user: 'artemio',
+//     database: 'reclamos',
+//     password: 'admin',
+// })
 
-/*
+
 export const conexion = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
     database:'reclamos',
     password:'Root123.',
-})*/
+})
 
 // export const conexion = await mysql.createConnection({
 //     host: 'localhost',
