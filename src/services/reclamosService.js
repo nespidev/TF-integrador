@@ -153,11 +153,11 @@ export default class ReclamosService {
 
         const datosCliente = {
             nombre: cliente[0].cliente,
-            correo: cliente[0].correoElectronico,
+            correoElectronico: cliente[0].correoElectronico,
             idReclamo: idReclamo,
             estado: cliente[0].estado
         }
-        console.log("emviado?");
+        console.log("enviado?");
         return await this.notificacionCorreo.notificacionCorreo(datosCliente)
     }
 }

@@ -25,7 +25,7 @@ export default class NotificacionCorreo {
       idReclamo: datosCliente.idReclamo,
       estado: datosCliente.estado
     }
-    //console.log(datos)
+    console.log(datosCliente)
     const correoHtml = template(datos)
 
     const transporte = nodemailer.createTransport(
@@ -48,6 +48,7 @@ export default class NotificacionCorreo {
     };
 
     try {
+      console.log(datosCliente.correElectronico)
       const info = await transporte.sendMail(mailOptions);
       console.log("Email sent: ", info.response);
       return { estado: 'OK', mensaje: 'Correo enviado correctamente' };
