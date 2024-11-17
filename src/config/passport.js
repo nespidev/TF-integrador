@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { Strategy as LocalSrategy } from "passport-local";
-import UsuariosService from "../services/usuarioServices.js";
+import UsuariosService from "../services/usuarioService.js";
 import dotenv from 'dotenv';
 dotenv.config();
 

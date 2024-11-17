@@ -1,10 +1,10 @@
 import { request, response } from "express";
-import UsuariosServer from "../services/usuarioServices.js"
+import UsuariosService from "../services/usuarioService.js"
 
 export default class UsuariosControllers{
 
     constructor() {
-        this.usuariosService = new UsuariosServer;
+        this.usuariosService = new UsuariosService;
     }
 
     buscarTodos = async (request, response) => {
@@ -53,6 +53,15 @@ export default class UsuariosControllers{
           }
     
         try {
+
+          const correoEnUso = await this.usuariosService.buscarCorreoEnUso(correoElectronico)
+          if (correoEnUso) {
+                  return res.status(400).send({
+                  estado: "Falla",
+                  mensaje: "El correo ingresado ya está registrado."
+              })
+          }
+          
           const usuario = {
             nombre,
             apellido,

@@ -16,10 +16,13 @@ export default class UsuariosService {
         return usuario;
     }
 
-
-
     buscarTodos= ()=>{
         return this.usuarios.buscarTodos();
+    }
+
+    buscarCorreoEnUso = async (correoElectronico) => {
+        const correo = await this.usuarios.buscarCorreoEnUso(correoElectronico);
+        return correo;
     }
 
     crear = async (usuario) => {

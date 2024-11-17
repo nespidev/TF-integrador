@@ -36,6 +36,16 @@ export default class Usuario {
             return result[0] || null; // Devuelve el primer usuario encontrado o null si no hay resultados
         }
 
+        buscarCorreoEnUso = async (correoElectronico) => {
+            const sql = `SELECT 1
+                         FROM usuarios AS u
+                         WHERE u.correoElectronico = ? 
+                           AND u.activo = 1
+                         LIMIT 1;`;
+            const [result] = await conexion.query(sql, [correoElectronico]);
+            return result.length > 0; // Retorna true si existe un user con el correo
+        };   
+
         crear = async({nombre,apellido,correoElectronico,contrasenia,idUsuarioTipo,imagen})=>{     
             const sql = `INSERT INTO usuarios(nombre, apellido, correoElectronico, contrasenia,
              idUsuarioTipo, imagen, activo) VALUES (?, ?, ?, SHA2(?, 256), ?, ?, 1)`;
@@ -43,7 +53,7 @@ export default class Usuario {
             const [result] = await conexion.query(sql, [nombre, apellido, correoElectronico, contrasenia,idUsuarioTipo,imagen]);
             return  result   
         }
-
+     
         actualizar = async (id, datos) => {
             const sql = 'UPDATE usuarios SET ? WHERE idUsuario = ?';
             const [result] = await conexion.query(sql, [datos,id]);

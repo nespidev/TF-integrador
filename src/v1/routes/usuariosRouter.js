@@ -4,14 +4,14 @@ import { auth } from "../../middlewares/authMiddleware.js";
 import { Roles } from "../../utiles/roles.js"
 
 const router = express.Router();
-const usuariosTipoController = new Usuarios();
+const usuariosController = new Usuarios();
 //trae la inf
-router.get("/:id",auth([Roles.ADMIN]), usuariosTipoController.buscarPorId); 
-router.get("/",auth([Roles.ADMIN]), usuariosTipoController.buscarTodos); 
+router.get("/:id",auth([Roles.ADMIN]), usuariosController.buscarPorId); 
+router.get("/",auth([Roles.ADMIN]), usuariosController.buscarTodos); 
 //guarda la inf
-router.post('/',auth([Roles.ADMIN]), usuariosTipoController.crear);
+router.post('/',auth([Roles.ADMIN]), usuariosController.crear);
 
 //patch => actualiza 
-router.patch("/:id",auth([Roles.ADMIN,Roles.CLIENTE]), usuariosTipoController.actualizar)
+router.patch("/:id",auth([Roles.ADMIN,Roles.CLIENTE]), usuariosController.actualizar)
 
 export {router};

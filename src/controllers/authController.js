@@ -1,9 +1,13 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import dotenv from 'dotenv';
+import UsuariosService from '../services/usuarioService.js';
 dotenv.config();
 
 export default class AuthController{
+    constructor() {
+        this.usuariosService = new UsuariosService();
+      }
         login = async (req, res) => {
             passport.authenticate('local', { session: false }, (err, usuario, info) => {
                 if (err || !usuario) {
@@ -29,5 +33,10 @@ export default class AuthController{
                 });
             })(req, res);
         }
+
+    signup = async (req,res) => {
+
+
+    }
     
 }   

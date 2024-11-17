@@ -27,4 +27,13 @@ router.post('/login',
         validarCampos
     ],authController.login);
 
+    router.post('/signup', 
+        [
+            check('correoElectronico', 'El correo electrónico es requerido!').not().isEmpty(),
+            check('correoElectronico', 'Revisar el formato del correo electrónico!').isEmail(),
+            check('contrasenia', 'La contrasenia es requerida!').not().isEmpty(),
+            validarCampos
+        ], authController.signup);
+      
+
 export {router};
