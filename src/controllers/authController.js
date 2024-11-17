@@ -33,10 +33,4 @@ export default class AuthController{
                 });
             })(req, res);
         }
-
-    signup = async (req,res) => {
-
-
-    }
-    
 }   

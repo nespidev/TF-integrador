@@ -89,6 +89,13 @@ export default class UsuariosControllers{
         }
       }
 
+      crearCliente = async (req, res) => {
+        //Sobrescribir idUsuarioTipo con el valor 3 para Cliente
+        req.body.idUsuarioTipo = "3";
+        console.log(req.body)
+        await this.crear(req, res);
+      };
+
     actualizar = async (req, res) => {
         try {
             const id = req.params.id;
