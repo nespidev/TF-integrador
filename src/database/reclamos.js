@@ -2,16 +2,20 @@ import { conexion } from "./conexion.js";
 
 export default class Reclamos {
 
-    buscarTodos = async () => {
-        const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
+    buscarTodos = async (limit = 0, offset = 0) => {
+        let sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
                         r.idReclamoEstado, re.descripcion AS descripción_estado, re.activo AS descripción_activo, 
                         r.idReclamoTipo, rt.descripcion AS descripción_tipo, rt.activo AS descripción_activo, 
                         u.nombre AS "Creado por"
                         FROM reclamos AS r
                         INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
                         INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado
-                        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador;`
-        const [result] = await conexion.query(sql);
+                        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador `
+
+        if (limit) {
+            sql += 'LIMIT ? OFFSET ? ';
+        }
+        const [result] = await conexion.query(sql, [limit, offset]);
         return result;
     }
 
@@ -52,14 +56,17 @@ export default class Reclamos {
         return result;
     }
 
-    consultar = async (idUsuarioCreador) => {
-        const sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
+    consultar = async (idUsuarioCreador, limit = 0, offset = 0) => {
+        let sql = `SELECT r.idReclamo, r.asunto, r.descripcion, r.fechaCreado, r.fechaFinalizado, r.fechaCancelado, 
                         re.descripcion, CONCAT(u.apellido, ' ', u.nombre) AS "Creado por"
                         FROM reclamos AS r
                         INNER JOIN reclamos_tipo AS rt ON rt.idReclamoTipo = r.idReclamoTipo
                         INNER JOIN reclamos_estado AS re ON re.idReclamoEstado = r.idReclamoEstado
-                        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador WHERE idUsuarioCreador = ?;`
-        const [result] = await conexion.query(sql, [idUsuarioCreador]);
+                        INNER JOIN usuarios AS u ON u.idUsuario = r.idUsuarioCreador WHERE idUsuarioCreador = ? `
+        if (limit) {
+            sql += 'LIMIT ? OFFSET ? ';
+        }
+        const [result] = await conexion.query(sql, [idUsuarioCreador, limit, offset]);
         return result;
     }
 

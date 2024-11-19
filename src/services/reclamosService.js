@@ -15,8 +15,8 @@ export default class ReclamosService {
         this.oficinasService = new OficinasService()
     }
 
-    buscarTodos = async () => {
-        return await this.reclamos.buscarTodos();
+    buscarTodos = async (limit, offset) => {
+        return await this.reclamos.buscarTodos(limit, offset);
     }
 
     buscarPorId = async (id) => {
@@ -60,8 +60,8 @@ export default class ReclamosService {
         return this.#envioCorreo(idReclamo)
     }
 
-    consultar = async (idUsuarioCreador) => {
-        const result = await this.reclamos.consultar(idUsuarioCreador);
+    consultar = async (idUsuarioCreador, limit, offset) => {
+        const result = await this.reclamos.consultar(idUsuarioCreador, limit, offset);
         return (result.length > 0) ? result : null;
     }
 

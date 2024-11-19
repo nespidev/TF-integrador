@@ -6,8 +6,16 @@ export default class ReclamosController {
     }
 
     buscarTodos = async (req, res) => {
+        //Paginación
+        const limit = req.query.limit;
+        const offset = req.query.offset;
+        
         try {
-            const reclamos = await this.service.buscarTodos();
+            //Si no están definidos limit y offset no hago paginación
+            let pLimit = limit ? Number(limit) : 0;
+            let pOffset = offset ? Number(offset) : 0;
+
+            const reclamos = await this.service.buscarTodos(pLimit, pOffset);
             res.status(200).json(reclamos);
         } catch (error) {
             res.status(500).json({ error: "Error interno en el servidor" });
@@ -132,16 +140,21 @@ export default class ReclamosController {
     }
 
     consultar = async (req, res) => { //! esto busca por body
+        //Paginación
+        const limit = req.query.limit;
+        const offset = req.query.offset;
         try {
             const idUsuarioCreador = req.user.idUsuario;
 
-            //console.log(idUsuarioCreador)
             const error = this.#checkId(idUsuarioCreador);
             if (error) {
                 return res.status(400).json(error);
             }
 
-            const result = await this.service.consultar(idUsuarioCreador);
+            let pLimit = limit ? Number(limit) : 0;
+            let pOffset = offset ? Number(offset) : 0;
+
+            const result = await this.service.consultar(idUsuarioCreador, pLimit, pOffset);
             if (result === null) {
                 return res.status(400).json({ message: 'No tiene reclamos Creados' });
             }
