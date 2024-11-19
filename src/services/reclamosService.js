@@ -99,7 +99,7 @@ export default class ReclamosService {
     oficina = async (id) => {
         const oficina = await this.usuarioOficinas.buscarPorIdUsuario(id);
         if (!oficina || oficina.length === 0) {
-            return { estado: false, mensaje: 'Empledao sin oficina' };
+            return { estado: false, mensaje: 'Empleado sin oficina' };
         }
 
         const oficinaId = oficina[0].idOficina
