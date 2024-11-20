@@ -40,10 +40,10 @@ export default class UsuariosService {
         const result = await this.buscarPorId(id)
 
         if (result === null) {
-            return {estado: false, mensaje: 'idReclamo no existe'};
+            return {estado: false, mensaje: 'idUsuario no existe'};
         } 
         if (!result) {
-            return { estado: false, mensaje: 'Reclamo no modificado' };
+            return { estado: false, mensaje: 'Usuario no modificado' };
         }
         return {estado: true, mensaje: 'Reclamo modificado con exito', data: result}
     }

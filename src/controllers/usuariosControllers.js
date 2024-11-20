@@ -98,13 +98,15 @@ export default class UsuariosControllers{
 
     actualizar = async (req, res) => {
         try {
-            const id = req.params.id;
-            const error = this.#checkId(id);
-            if (error) {
+            const idUsuario = req.params.id;
+            const error = this.#checkId(idUsuario);
+            if (error) {U
                 return res.status(400).json(error);
             }
-
-            const datos = req.body;
+            console.log(req.file)
+            const imagen  = req.file ? req.file.filename : null;            
+            const datos = { ...req.body, imagen}; 
+            
             if (Object.keys(datos).length === 0) {
                 return res.status(400).send({
                     estado: "Falla",
@@ -112,7 +114,7 @@ export default class UsuariosControllers{
                 });
             }
 
-            const result = await this.usuariosService.actualizar(id, datos);
+            const result = await this.usuariosService.actualizar(idUsuario, datos);
             if (result.estado) {
                 res.status(200).send({ estado: "OK", mensaje: result.mensaje, data: result.data });
             } else {
