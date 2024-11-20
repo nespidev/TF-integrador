@@ -20,6 +20,10 @@ export default class UsuariosService {
         return this.usuarios.buscarTodos();
     }
 
+    buscarImagen = (idUsuario) => {
+        return this.usuarios.buscarImagen(idUsuario)
+    }
+
     buscarCorreoEnUso = async (correoElectronico) => {
         const correo = await this.usuarios.buscarCorreoEnUso(correoElectronico);
         return correo;

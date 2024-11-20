@@ -36,6 +36,16 @@ export default class Usuario {
             return result[0] || null; // Devuelve el primer usuario encontrado o null si no hay resultados
         }
 
+        buscarImagen = async (idUsuario) => {
+            const sql = `SELECT u.imagen
+                         FROM usuarios AS u
+                         WHERE u.idUsuario = ? 
+                           AND u.activo = 1;`;
+            const [result] = await conexion.query(sql, [idUsuario]);
+            console.log("Resultado de la consulta SQL:", result);
+            return result[0] || null;
+        }
+        
         buscarCorreoEnUso = async (correoElectronico) => {
             const sql = `SELECT 1
                          FROM usuarios AS u

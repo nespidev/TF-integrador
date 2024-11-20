@@ -42,6 +42,36 @@ export default class UsuariosControllers{
         }
       }
     
+      buscarImagen = async (req, res) => {
+        try {
+          const idUsuario = req.params.id;
+          const error = this.#checkId(idUsuario);
+          if (error) {
+            return res.status(400).json(error);
+          }
+      
+          const result = await this.usuariosService.buscarImagen(idUsuario);
+          if (!result || result.length === 0) {
+            return res.status(400).json({ message: 'No se encontró imagen para usuario con ese id' });
+          }
+      
+          const carpeta = 'public/imagenes/';
+          const imagenPath = carpeta + result.imagen; // Ruta al archivo
+      
+
+          return res.download(imagenPath, (err) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).json({ message: 'Error al descargar la imagen.' });
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          return res.status(500).json({ message: 'Lo sentimos, ha ocurrido un error en el servidor.' });
+        }
+      };
+      
+
     crear = async (req, res) => {
       const { nombre,apellido,correoElectronico,contrasenia,idUsuarioTipo,imagen } = req.body;
     
@@ -103,7 +133,7 @@ export default class UsuariosControllers{
             if (error) {U
                 return res.status(400).json(error);
             }
-            console.log(req.file)
+
             const imagen  = req.file ? req.file.filename : null;            
             const datos = { ...req.body, imagen}; 
             

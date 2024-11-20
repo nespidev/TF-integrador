@@ -18,8 +18,8 @@ router.get("/",auth([Roles.ADMIN]), usuariosController.buscarTodos);
 router.post('/',auth([Roles.ADMIN]), usuariosController.crear);
 
 //patch => actualiza 
-// router.patch("/:id",auth([Roles.ADMIN,Roles.CLIENTE]), usuariosController.actualizar)
-
 router.patch('/:id', auth([Roles.ADMIN,Roles.EMPLEADO]), upload.single('imagen'), usuariosController.actualizar);
+
+router.get("/:id/imagen", auth([Roles.ADMIN,Roles.EMPLEADO],Roles.Cliente),usuariosController.buscarImagen);
 
 export {router};
