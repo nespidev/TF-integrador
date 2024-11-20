@@ -1,6 +1,5 @@
 import express from 'express';
 import OficinasController from '../../controllers/oficinasController.js';
-// import passport from "passport";
 import { auth } from "../../middlewares/authMiddleware.js";
 import { Roles } from "../../utiles/roles.js"
 

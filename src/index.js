@@ -1,4 +1,4 @@
-import express, { json } from "express"
+import express from "express"
 import dotenv from "dotenv"
 import { router as v1ReclamosEstadoRouter } from "./v1/routes/reclamosEstadosRoutes.js"
 import { router as v1UsuariosTipoRouter } from "./v1/routes/usuariosTipoRoutes.js"
@@ -10,14 +10,10 @@ import { router as v1UsuariosRouter } from "./v1/routes/usuariosRouter.js"
 import { router as v1UsuariosOficinasRouter} from "./v1/routes/usuariosOficinasRoutes.js"
 import { router as v1AuthRouter } from "./v1/routes/authRoutes.js"
 
-import swaggerUi from 'swagger-ui-express'
-import swaggerJsdoc from 'swagger-jsdoc';
 
 
 //para pasport
 import passport from "passport";
-import session from "express-session";
-//import passport, { session } from "passport"
 import { estrategia, validacion } from "./config/passport.js"
 
 
@@ -53,11 +49,11 @@ app.use(express.json());
 // ======================= Fin envio de correo =======================
 
 
-app.use('/api/v1/reclamos-estados', v1ReclamosEstadoRouter)
+app.use('/api/v1/reclamos-estados', passport.authenticate('jwt',{ session: false}), v1ReclamosEstadoRouter)
 app.use('/api/v1/usuarios-tipo',passport.authenticate('jwt',{ session: false}), v1UsuariosTipoRouter)
 
 
-app.use('/api/v1/reclamos-tipo', v1ReclamosTipoRouter);
+app.use('/api/v1/reclamos-tipo',passport.authenticate('jwt',{ session: false}), v1ReclamosTipoRouter);
 
 
 app.use('/api/v1/reclamos',passport.authenticate('jwt',{ session: false}), v1Reclamos);
