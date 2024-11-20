@@ -15,4 +15,6 @@ router.post('/',auth([Roles.ADMIN]),oficinasController.crear);
 
 router.patch('/:id',auth([Roles.ADMIN]),oficinasController.actualizar);
 
+router.get('/estadistica', auth([Roles.ADMIN]), oficinasController.estadistica); // admin
+
 export {router};

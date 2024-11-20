@@ -24,4 +24,8 @@ export default class OficinasService{
         return this.oficinas.actualizar(id, datos);
     }
 
+    estadistica = () => {
+        return this.oficinas.estadistica();
+    }
+
 }

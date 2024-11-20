@@ -34,4 +34,14 @@ export default class Oficinas{
         const [result] = await conexion.query(sql, [datos,id]);
         return result
     }
+
+    estadistica = async () => {
+        const sql = `SELECT idOficina, COUNT(idUsuario) AS cantidadEmpleados
+        FROM usuarios_oficinas
+        WHERE activo = 1
+        GROUP BY idOficina`;
+        const [result] = await  conexion.query(sql);
+        console.log(result)
+        return result
+    }
 }

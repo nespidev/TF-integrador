@@ -1,6 +1,5 @@
 import express from "express";
 import ReclamosController from "../../controllers/reclamosController.js";
-import passport from "passport";
 import { auth } from "../../middlewares/authMiddleware.js";
 import { Roles } from "../../utiles/roles.js"
 
@@ -23,8 +22,6 @@ router.get('/consultar/', auth([Roles.CLIENTE]), reclamosController.consultar) /
 router.patch('/cancelar/:id?', auth([Roles.CLIENTE]), reclamosController.cancelar); // cliente - ok
 
 router.get("/informe/:formato?", auth([Roles.ADMIN]), reclamosController.informe); // admin - ok
-
-router.get("/estadistica", reclamosController.estadística); // admin
 
 router.get("/por-oficina/", auth([Roles.EMPLEADO]), reclamosController.oficina)
 

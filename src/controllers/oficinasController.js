@@ -150,6 +150,29 @@ export default class OficinasController {
     }
   }
 
+  estadistica = async (req, res) => {
+    try {
+      console.log('controller')
+  
+      // Estadisticas de la cantidad de empleados por oficina
+      const estadisticas = await this.oficinasService.estadistica();
+  
+      if (!estadisticas || estadisticas.length === 0) {
+        return res.status(404).json({ message: 'No se encontraron estadísticas de oficinas.' });
+      }
+  
+      res.status(200).json({
+        estado: true,
+        estadisticas: estadisticas
+      });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al obtener las estadísticas.' });
+    }
+  };
+  
+
   #checkId(id) {
     if (id === undefined) {
       return { message: 'El id es requerido' };
